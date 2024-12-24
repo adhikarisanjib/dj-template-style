@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}{% endblock %}
+    </title>
+    
+    <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+    <link rel="stylesheet" href="{% static 'css/boxicons.min.css' %}">
+
+    <style>
+        @font-face {
+            font-family: 'Poppins';
+            src: url("{% static 'fonts/Poppins-Regular.ttf' %}") format('truetype');
+            font-weight: normal;
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            src: url("{% static 'fonts/Poppins-Bold.ttf' %}") format('truetype');
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>

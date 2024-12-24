@@ -1,0 +1,28 @@
+# Initialize a project
+
+>> uv init project-name             // Initialize a uv project with project-name inside the folder with project-name
+>> uv init                          // Initialize a uv project in current folder with project-name as folder-name
+>> uv init .                        // Initialize a uv project in current folder with project-name as folder-name
+>> uv init --python 3.12            // Initialize a uv project in current folder with specified python version
+
+
+# Create a virtualenv
+
+>> uv venv                          // Creates a virtualenv named .venv with python version sepcified in .python-version file
+>> uv venv --python 3.12            // Creates a virtualenv with python version -- better to declare at the time of init
+
+>> uv venv venv-name                // Creates a new virtualenv with venv-name with python version sepcified in .python-version file but doesnot act as project venv
+
+
+# Install python packages to the virtualenv
+
+>> uv add pillow                        // Install the python package pillow to the venv of the project
+>> uv add -r requirements.txt           // Install the python packages from requirements.txt to the venv of the project
+
+>> uv pip install pillow                // Install the python package using pip to temporary venv not the project one
+>> uv pip install -r requirements.txt   // Install the python packages from requirements.txt to temporary venv not the project one
+
+
+# Sync the complete project with uv
+
+>> uv sync                             // Sync the complete project with uv

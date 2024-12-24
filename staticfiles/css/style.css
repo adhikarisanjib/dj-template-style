@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+}
+  
+@layer base {
+    body {
+      @apply dark:text-white bg-gray-100  dark:bg-gray-900
+    }
+  
+    h1 {
+      @apply text-[2.5rem] font-bold;
+    }
+  
+    h2 {
+      @apply text-[2rem] font-bold;
+    }
+  
+    h3 {
+      @apply text-[1.75rem] font-bold;
+    }
+  
+    h4 {
+      @apply text-[1.5rem] font-bold;
+    }
+  
+    h5 {
+      @apply text-[1.25rem] font-bold;
+    }
+  
+    h6 {
+      @apply text-[1rem] font-bold;
+    }
+  
+    ul {
+      @apply list-inside;
+    }
+  
+    ol {
+      @apply list-inside;
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus {
+      -webkit-text-fill-color: black; /* Text color */
+      -webkit-box-shadow: 0 0 0px 1000px transparent; /* Background color */
+      transition: background-color 5000s ease-in-out 0s; /* Prevent transition */
+    }
+  
+    .dark input:-webkit-autofill,
+    .dark input:-webkit-autofill:hover,
+    .dark input:-webkit-autofill:focus {
+      -webkit-text-fill-color: white; /* Text color */
+    }
+}
