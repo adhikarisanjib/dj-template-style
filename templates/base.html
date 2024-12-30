@@ -2,31 +2,44 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        {% block title %}{% endblock %}
-    </title>
-    
-    <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
-    <link rel="stylesheet" href="{% static 'css/boxicons.min.css' %}">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            {% block title %}{% endblock %}
+        </title>
+        
+        <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+        <link rel="stylesheet" href="{% static 'css/boxicons.min.css' %}">
 
-    <style>
-        @font-face {
-            font-family: 'Poppins';
-            src: url("{% static 'fonts/Poppins-Regular.ttf' %}") format('truetype');
-            font-weight: normal;
-        }
+        <style>
+            @font-face {
+                font-family: 'Poppins';
+                src: url("{% static 'fonts/Poppins-Regular.ttf' %}") format('truetype');
+                font-weight: normal;
+            }
 
-        @font-face {
-            font-family: 'Poppins';
-            src: url("{% static 'fonts/Poppins-Bold.ttf' %}") format('truetype');
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-    {% block content %}{% endblock %}
-</body>
+            @font-face {
+                font-family: 'Poppins';
+                src: url("{% static 'fonts/Poppins-Bold.ttf' %}") format('truetype');
+                font-weight: bold;
+            }
+        </style>
+    </head>
+
+    <body class="flex w-screen h-screen">
+        
+        {% include 'snippets/sidebar.html' %}
+
+        <div class="flex flex-col flex-grow">
+
+            {% include 'snippets/navbar.html' %}
+
+            <div class="px-4 py-2 flex-grow">
+                {% block content %}{% endblock %}
+            </div>
+
+        </div>
+    </body>
+
 </html>

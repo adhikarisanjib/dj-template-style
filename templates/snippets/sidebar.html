@@ -1,0 +1,98 @@
+<aside id="h-screen">
+
+    <nav id="id-sidebar" class="h-full overflow-hidden bg-white dark:bg-gray-800 shadow-sm border-r">
+
+        <div class="px-4 py-2 flex items-center gap-3 border-b">
+            <i id="id-sidebar-toggler" class='bx bx-menu p-1 text-3xl cursor-pointer'></i>
+            <h1 class="font-bold text-2xl">Dashboard</h1>
+        </div>
+
+        <div class="px-2 flex flex-col justify-between">
+
+            <ul class="pt-2 pb-3 overflow-y-auto overflow-x-hidden">
+                <li class="px-4 py-2 flex items-center gap-3 rounded-md cursor-pointer hover:bg-gray-600 hover:text-white">
+                    <i class='bx bx-user text-xl'></i>
+                    <span class="ml-2">Profile</span>
+                </li>
+                <li class="flex flex-col">
+                    <div class="px-4 py-2 flex items-center gap-3 rounded-md cursor-pointer hover:bg-gray-600 hover:text-white" onclick="toggleSubmenu('id-submenu-databases')">
+                        <i class='bx bxs-dashboard text-xl'></i>
+                        <span class="ml-2">Databases</span>
+                        <i class='bx bx-chevron-down text-xl ml-auto'></i>
+                    </div>
+                    <ul id="id-submenu-databases" class="hidden pb-2 pl-4 sub-menu">
+                        <li class="px-4 py-2 flex items-center gap-3 rounded-md cursor-pointer hover:bg-gray-600 hover:text-white">
+                            <i class='bx bx-user text-xl'></i>
+                            <span class="ml-2">Student</span>
+                        </li>
+                        <li class="px-4 py-2 flex items-center gap-3 rounded-md cursor-pointer hover:bg-gray-600 hover:text-white">
+                            <i class='bx bx-user text-xl'></i>
+                            <span class="ml-2">Staff</span>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="mt-auto pt-2 pb-4 border-t">
+                <li class="px-4 py-2 flex items-center gap-3 rounded-md cursor-pointer hover:bg-gray-600 hover:text-white">
+                    <i class='bx bx-log-out text-xl'></i>
+                    <span class="ml-2">Logout</span>
+                </li>
+            </ul>
+
+        </div>
+        
+    </nav>
+
+</aside>
+
+<script>
+
+    // Check if sidebar is expanded
+    const sidebarExpanded = localStorage.getItem('sidebarIsOpen');
+    if (!sidebarExpanded) {
+        localStorage.setItem('sidebarIsOpen', 'true');
+    }
+
+    // Set sidebar width
+    if (sidebarExpanded === 'true') {
+        document.getElementById('id-sidebar').classList.add('w-64');
+    } else {
+        document.getElementById('id-sidebar').classList.add('w-16');
+    }
+
+    // Function to toggle sidebar
+    let sidebar = document.getElementById('id-sidebar');
+    let sidebarTogglerBtn = document.getElementById('id-sidebar-toggler');
+    
+    sidebarTogglerBtn.addEventListener('click', function () {
+        let sidebarIsOpen = localStorage.getItem('sidebarIsOpen');
+        if (sidebarIsOpen === 'true') {
+            sidebar.classList.remove('w-64');
+            sidebar.classList.add('w-16');
+            localStorage.setItem('sidebarIsOpen', 'false');
+            
+            let submenus = document.getElementsByClassName('sub-menu');
+            for (let i = 0; i < submenus.length; i++) {
+                if (!submenus[i].classList.contains('hidden')) {
+                    submenus[i].classList.add('hidden');
+                }
+            }
+
+        } else {
+            sidebar.classList.remove('w-16');
+            sidebar.classList.add('w-64');
+            localStorage.setItem('sidebarIsOpen', 'true');
+        }
+    });
+
+    // Function to toggle submenu
+    const toggleSubmenu = (id) => {
+        const sidebarIsOpen = localStorage.getItem('sidebarIsOpen');
+        if (sidebarIsOpen === 'true') {
+            let submenu = document.getElementById(id);
+            submenu.classList.toggle('hidden');
+        }
+    };
+    
+</script>

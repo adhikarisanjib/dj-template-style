@@ -1,0 +1,61 @@
+<nav class="px-4 py-2 flex justify-between items-baseline gap-4 bg-white dark:bg-gray-800 shadow-sm border-b">
+
+    <div class="px-5 py-2">
+        <a href="" class="text-xl font-bold">Logo</a>
+    </div>
+
+    <div class="px-2 flex items-baseline gap-2">
+        <span id="id-theme-toggler" class="h-8 w-8 flex justify-center items-center rounded-full border cursor-pointer">
+            <i class="bx bx-moon text-lg"></i>
+        </span>
+        <span class="h-8 w-8 flex justify-center items-center rounded-full border cursor-pointer">
+            <i class="bx bx-user text-lg"></i>
+        </span>
+    </div>
+
+</nav>
+
+<script>
+
+    // Check if theme is set
+    let theme = localStorage.getItem("theme");
+    if (!theme) {
+        // Check system preference
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        theme = prefersDark ? "dark" : "light";
+        localStorage.setItem("theme", theme);
+    }
+
+    // Apply the theme
+    if (theme === "dark") {
+        document.documentElement.classList.add("dark");
+    } else {
+        document.documentElement.classList.remove("dark");
+    }
+
+    // Function to toggle theme
+    function toggleTheme() {
+        let currentTheme = localStorage.getItem("theme");
+        if (currentTheme === "dark") {
+            document.documentElement.classList.remove("dark");
+            localStorage.setItem("theme", "light");
+            console.log("light");
+        } else {
+            document.documentElement.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+            console.log("dark");
+        }
+    }
+
+    // Add event listeners to toggle buttons
+    document.getElementById("id-theme-toggler").addEventListener("click", function (e) {
+        e.preventDefault();
+        toggleTheme();
+    });
+
+    // document.getElementById("id-theme-toggler-mob").addEventListener("click", function (e) {
+    //     e.preventDefault();
+    //     toggleTheme();
+    // });
+    
+</script>
