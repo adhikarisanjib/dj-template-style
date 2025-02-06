@@ -11,10 +11,6 @@
 }
   
 @layer base {
-    body {
-      @apply dark:text-white bg-gray-100  dark:bg-gray-900
-    }
-  
     h1 {
       @apply text-[2.5rem] font-bold;
     }

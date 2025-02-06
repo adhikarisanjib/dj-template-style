@@ -1,45 +1,47 @@
 <aside id="h-screen">
 
-    <nav id="id-sidebar" class="h-full overflow-hidden bg-white dark:bg-gray-800 shadow-sm border-r">
+    <nav id="id-sidebar" class="h-full px-4 py-2 flex flex-col overflow-hidden bg-white dark:bg-gray-800 shadow-sm border-r">
 
-        <div class="px-4 py-2 flex items-center gap-3 border-b">
-            <i id="id-sidebar-toggler" class='bx bx-menu p-1 text-3xl cursor-pointer'></i>
-            <h1 class="font-bold text-2xl">Dashboard</h1>
+        <div class="pb-2 mb-2 flex items-center gap-4 border-b">
+            <i id="id-sidebar-toggler" class="bx bx-menu text-3xl cursor-pointer"></i>
+            <span class="text-xl font-bold">Dashboard</span>
         </div>
 
-        <div class="px-2 flex flex-col justify-between">
-
-            <ul class="pt-2 pb-3 overflow-y-auto overflow-x-hidden">
-                <li class="px-4 py-2 flex items-center gap-3 rounded-md cursor-pointer hover:bg-gray-600 hover:text-white">
-                    <i class='bx bx-user text-xl'></i>
-                    <span class="ml-2">Profile</span>
+        <div class="mt-2 px-1 flex flex-col flex-grow ">
+            
+            <ul class="flex flex-col gap-2">
+                <li class="flex items-center gap-5">
+                    <i class="bx bx-user text-2xl cursor-pointer"></i>
+                    <a href="" class="">Students</a>
                 </li>
-                <li class="flex flex-col">
-                    <div class="px-4 py-2 flex items-center gap-3 rounded-md cursor-pointer hover:bg-gray-600 hover:text-white" onclick="toggleSubmenu('id-submenu-databases')">
-                        <i class='bx bxs-dashboard text-xl'></i>
-                        <span class="ml-2">Databases</span>
+
+                <li class="flex items-center gap-5">
+                    <i class="bx bx-user text-2xl cursor-pointer"></i>
+                    <a href="" class="">Staffs</a>
+                </li>
+
+                <li class="relative flex flex-col gap-2" data-collapse-toggle="id_submenu_databases" aria-controls="id_submenu_databases" aria-expanded="false">
+                    <button class="flex items-center gap-5">
+                        <i class="bx bx-user text-2xl cursor-pointer"></i>
+                        <span>Databases</span>
                         <i class='bx bx-chevron-down text-xl ml-auto'></i>
-                    </div>
-                    <ul id="id-submenu-databases" class="hidden pb-2 pl-4 sub-menu">
-                        <li class="px-4 py-2 flex items-center gap-3 rounded-md cursor-pointer hover:bg-gray-600 hover:text-white">
-                            <i class='bx bx-user text-xl'></i>
-                            <span class="ml-2">Student</span>
-                        </li>
-                        <li class="px-4 py-2 flex items-center gap-3 rounded-md cursor-pointer hover:bg-gray-600 hover:text-white">
-                            <i class='bx bx-user text-xl'></i>
-                            <span class="ml-2">Staff</span>
+                    </button>
+                    <ul id="id_submenu_databases" class="hidden flex flex-col gap-2">
+                        <li class="flex items-center gap-5">
+                            <i class="bx bx-user text-2xl cursor-pointer"></i>
+                            <a href="" class="">Users</a>
                         </li>
                     </ul>
                 </li>
             </ul>
-
-            <ul class="mt-auto pt-2 pb-4 border-t">
-                <li class="px-4 py-2 flex items-center gap-3 rounded-md cursor-pointer hover:bg-gray-600 hover:text-white">
-                    <i class='bx bx-log-out text-xl'></i>
-                    <span class="ml-2">Logout</span>
+            
+            <ul class="mt-auto">
+                <li class="flex items-center gap-5">
+                    <i class="bx bx-log-out text-2xl cursor-pointer"></i>
+                    <a href="" class="">Logout</a>
                 </li>
             </ul>
-
+            
         </div>
         
     </nav>
@@ -49,7 +51,7 @@
 <script>
 
     // Check if sidebar is expanded
-    const sidebarExpanded = localStorage.getItem('sidebarIsOpen');
+    let sidebarExpanded = localStorage.getItem('sidebarIsOpen');
     if (!sidebarExpanded) {
         localStorage.setItem('sidebarIsOpen', 'true');
     }
@@ -94,5 +96,48 @@
             submenu.classList.toggle('hidden');
         }
     };
+
+
+    // JS for the dropdown toggles
+    document.addEventListener('DOMContentLoaded', () => {
+        const toggleButtons = document.querySelectorAll('[data-collapse-toggle]');
+
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                const targetId = button.getAttribute('data-collapse-toggle');
+                const targetElement = document.getElementById(targetId);
+                const isSidebarExpanded = localStorage.getItem('sidebarIsOpen');
+
+                if (targetElement) {
+                    // Toggle the visibility
+                    const isElementExpanded = button.getAttribute('aria-expanded') === 'true';
+                    button.setAttribute('aria-expanded', !isElementExpanded);
+                    
+                    
+                    console.log(isSidebarExpanded)
+                    targetElement.classList.toggle('hidden');
+                    if (isSidebarExpanded == 'false') {
+                        targetElement.classList.add('absolute', 'top-0', 'left-16', 'z-10');
+                    } 
+                }
+
+                // Prevent click from propagating to the document listener
+                event.stopPropagation();
+            });
+        });
+
+        // Click outside to close all dropdowns
+        document.addEventListener('click', () => {
+            toggleButtons.forEach(button => {
+                const targetId = button.getAttribute('data-collapse-toggle');
+                const targetElement = document.getElementById(targetId);
+
+                if (targetElement && !targetElement.classList.contains('hidden')) {
+                    button.setAttribute('aria-expanded', 'false');
+                    targetElement.classList.add('hidden');
+                }
+            });
+        });
+    });
     
 </script>
