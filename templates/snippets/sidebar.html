@@ -1,143 +1,169 @@
-<aside id="h-screen">
+{% load static %}
 
-    <nav id="id-sidebar" class="h-full px-4 py-2 flex flex-col overflow-hidden bg-white dark:bg-gray-800 shadow-sm border-r">
+<aside id="id-sidebar" class="px-4 py-4 h-full flex flex-col bg-gray-100 dark:bg-gray-800">
 
-        <div class="pb-2 mb-2 flex items-center gap-4 border-b">
-            <i id="id-sidebar-toggler" class="bx bx-menu text-3xl cursor-pointer"></i>
-            <span class="text-xl font-bold">Dashboard</span>
-        </div>
+    <div class="flex items-center px-1 py-2 gap-x-6 text-gray-900 rounded dark:text-white cursor-pointer">
+        <i id="id-sidebar-toggler" class='bx bx-menu text-2xl'></i>
+        <span>Dashboard</span>
+    </div>
 
-        <div class="mt-2 px-1 flex flex-col flex-grow ">
-            
-            <ul class="flex flex-col gap-2">
-                <li class="flex items-center gap-5">
-                    <i class="bx bx-user text-2xl cursor-pointer"></i>
-                    <a href="" class="">Students</a>
-                </li>
-
-                <li class="flex items-center gap-5">
-                    <i class="bx bx-user text-2xl cursor-pointer"></i>
-                    <a href="" class="">Staffs</a>
-                </li>
-
-                <li class="relative flex flex-col gap-2" data-collapse-toggle="id_submenu_databases" aria-controls="id_submenu_databases" aria-expanded="false">
-                    <button class="flex items-center gap-5">
-                        <i class="bx bx-user text-2xl cursor-pointer"></i>
-                        <span>Databases</span>
-                        <i class='bx bx-chevron-down text-xl ml-auto'></i>
-                    </button>
-                    <ul id="id_submenu_databases" class="hidden flex flex-col gap-2">
-                        <li class="flex items-center gap-5">
-                            <i class="bx bx-user text-2xl cursor-pointer"></i>
-                            <a href="" class="">Users</a>
-                        </li>
-                    </ul>
-                </li>
+    <ul class="mt-2 py-2 border-t">
+        <li>
+            <a href="#" class="flex items-center p-2 gap-x-6 text-gray-900 rounded dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group">
+                <i class='bx bx-home'></i>
+                <span>Home</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" target="id-sidebar-database-submenu-list" class="sidebar-menu flex items-center p-2 gap-x-6 text-gray-900 rounded dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group">
+                <i class='bx bx-data'></i>
+                <span>Databases</span>
+                <i class='bx bx-chevron-right text-lg ml-auto'></i>
+            </a>
+            <ul id="id-sidebar-database-submenu-list" class="ml-4 hidden">
+                <a href="#" class="flex items-center p-2 gap-x-6 text-gray-900 rounded dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group">
+                    <i class='bx bx-user'></i>
+                    <span>Students</span>
+                </a>
+                <a href="#" class="flex items-center p-2 gap-x-6 text-gray-900 rounded dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group">
+                    <i class='bx bx-book'></i>
+                    <span>Books</span>
+                </a>
             </ul>
-            
-            <ul class="mt-auto">
-                <li class="flex items-center gap-5">
-                    <i class="bx bx-log-out text-2xl cursor-pointer"></i>
-                    <a href="" class="">Logout</a>
-                </li>
+        </li>
+        <li>
+            <a href="#" target="id-sidebar-accountant-submenu-list" class="sidebar-menu flex items-center p-2 gap-x-6 text-gray-900 rounded dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group">
+                <i class='bx bx-wallet'></i>
+                <span>Accountant</span>
+                <i class='bx bx-chevron-right text-lg ml-auto'></i>
+            </a>
+            <ul id="id-sidebar-accountant-submenu-list" class="ml-4 hidden">
+                <a href="#" class="flex items-center p-2 gap-x-6 text-gray-900 rounded dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group">
+                    <i class='bx bx-credit-card-alt'></i>
+                    <span>Fees</span>
+                </a>
+                <a href="#" class="flex items-center p-2 gap-x-6 text-gray-900 rounded dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group">
+                    <i class='bx bx-credit-card-alt'></i>
+                    <span>Pay</span>
+                </a>
             </ul>
-            
-        </div>
-        
-    </nav>
+        </li>
+    </ul>
 
+    <ul class="mt-auto py-2 border-t">
+        <li>
+            <a href="#" class="flex items-center p-2 gap-x-6 text-gray-900 rounded dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group">
+                <i class='bx bx-log-out'></i>
+                <span>Logout</span>
+            </a>
+        </li>
+    </ul>
 </aside>
 
+<!-- Sidebar submenu when sidebar is collapsed -->
+<div id="id-sidebar-submenu-box" class="absolute px-4 py-3 bg-gray-100 dark:bg-gray-800 hidden">
+    <ul id="id-sidebar-submenu-box-content" class="min-w-48">
+      <!-- Dynamic content will be inserted here -->
+    </ul>
+</div>
+
 <script>
+document.addEventListener('DOMContentLoaded', () => {
+    let sidebar_open = localStorage.getItem('sidebar_open') === 'true';
+    const sidebar = document.getElementById('id-sidebar');
+    const sidebarMenus = document.querySelectorAll('.sidebar-menu');
+    const sidebarToggler = document.getElementById('id-sidebar-toggler');
+    const sidebarSubmenuBox = document.getElementById('id-sidebar-submenu-box');
+    const sidebarSubmenuBoxContent = document.getElementById('id-sidebar-submenu-box-content');
+    let sidebarActiveMenu = null;
 
-    // Check if sidebar is expanded
-    let sidebarExpanded = localStorage.getItem('sidebarIsOpen');
-    if (!sidebarExpanded) {
-        localStorage.setItem('sidebarIsOpen', 'true');
+    // Initialize sidebar state based on localStorage
+    if (sidebar_open === null) {
+        sidebar_open = true;
+        localStorage.setItem('sidebar_open', String(sidebar_open));
     }
 
-    // Set sidebar width
-    if (sidebarExpanded === 'true') {
-        document.getElementById('id-sidebar').classList.add('w-64');
+    // Apply initial classes based on stored state
+    if (sidebar_open) {
+        sidebar.classList.add('w-64');
+        sidebar.classList.remove('w-16');
     } else {
-        document.getElementById('id-sidebar').classList.add('w-16');
+        sidebar.classList.add('w-16');
+        sidebar.classList.remove('w-64');
     }
 
-    // Function to toggle sidebar
-    let sidebar = document.getElementById('id-sidebar');
-    let sidebarTogglerBtn = document.getElementById('id-sidebar-toggler');
-    
-    sidebarTogglerBtn.addEventListener('click', function () {
-        let sidebarIsOpen = localStorage.getItem('sidebarIsOpen');
-        if (sidebarIsOpen === 'true') {
+    function hideSidebarSubmenuBox() {
+        sidebarSubmenuBox.classList.add('hidden');
+        sidebarActiveMenu = null;
+    }
+
+    function hideAllSidebarSubmenus() {
+        sidebarMenus.forEach(menu => {
+            const sidebarSubmenuId = menu.getAttribute('target');
+            const sidebarSubmenuElement = document.getElementById(sidebarSubmenuId);
+            if (sidebarSubmenuElement && !sidebarSubmenuElement.classList.contains('hidden')) {
+                sidebarSubmenuElement.classList.add('hidden');
+            }
+        });
+    }
+
+    sidebarToggler.addEventListener('click', () => {
+        sidebar_open = !sidebar_open;
+        localStorage.setItem('sidebar_open', String(sidebar_open));
+
+        if (!sidebar_open) {
             sidebar.classList.remove('w-64');
             sidebar.classList.add('w-16');
-            localStorage.setItem('sidebarIsOpen', 'false');
-            
-            let submenus = document.getElementsByClassName('sub-menu');
-            for (let i = 0; i < submenus.length; i++) {
-                if (!submenus[i].classList.contains('hidden')) {
-                    submenus[i].classList.add('hidden');
-                }
-            }
-
+            hideAllSidebarSubmenus();
+            hideSidebarSubmenuBox();
         } else {
             sidebar.classList.remove('w-16');
             sidebar.classList.add('w-64');
-            localStorage.setItem('sidebarIsOpen', 'true');
+            hideSidebarSubmenuBox();
         }
     });
 
-    // Function to toggle submenu
-    const toggleSubmenu = (id) => {
-        const sidebarIsOpen = localStorage.getItem('sidebarIsOpen');
-        if (sidebarIsOpen === 'true') {
-            let submenu = document.getElementById(id);
-            submenu.classList.toggle('hidden');
+    function toggleSidebarSubmenu(event) {
+        event.preventDefault();
+        const sidebarMenuItem = event.currentTarget;
+        const sidebarSubmenuId = sidebarMenuItem.getAttribute('target');
+        const sidebarSubmenuElement = document.getElementById(sidebarSubmenuId);
+
+        if (!sidebarSubmenuElement) return;
+        
+        if (sidebar_open) {
+            // Handle expanded sidebar case
+            const isHidden = sidebarSubmenuElement.classList.contains('hidden');
+            hideAllSidebarSubmenus();
+            if (isHidden) sidebarSubmenuElement.classList.remove('hidden');
+        } else {
+            // Handle collapsed sidebar case - always show in submenu box
+            if (sidebarActiveMenu === sidebarSubmenuId) {
+                hideSidebarSubmenuBox();
+            } else {
+                const submenuItems = Array.from(sidebarSubmenuElement.children).map(item => item.outerHTML);
+                sidebarSubmenuBoxContent.innerHTML = submenuItems.join('');
+                
+                const rect = sidebarMenuItem.getBoundingClientRect();
+                sidebarSubmenuBox.style.top = `${rect.top}px`;
+                sidebarSubmenuBox.style.left = `${rect.right + 8}px`;
+                
+                sidebarSubmenuBox.classList.remove('hidden');
+                sidebarActiveMenu = sidebarSubmenuId;
+            }
         }
-    };
+    }
 
-
-    // JS for the dropdown toggles
-    document.addEventListener('DOMContentLoaded', () => {
-        const toggleButtons = document.querySelectorAll('[data-collapse-toggle]');
-
-        toggleButtons.forEach(button => {
-            button.addEventListener('click', (event) => {
-                const targetId = button.getAttribute('data-collapse-toggle');
-                const targetElement = document.getElementById(targetId);
-                const isSidebarExpanded = localStorage.getItem('sidebarIsOpen');
-
-                if (targetElement) {
-                    // Toggle the visibility
-                    const isElementExpanded = button.getAttribute('aria-expanded') === 'true';
-                    button.setAttribute('aria-expanded', !isElementExpanded);
-                    
-                    
-                    console.log(isSidebarExpanded)
-                    targetElement.classList.toggle('hidden');
-                    if (isSidebarExpanded == 'false') {
-                        targetElement.classList.add('absolute', 'top-0', 'left-16', 'z-10');
-                    } 
-                }
-
-                // Prevent click from propagating to the document listener
-                event.stopPropagation();
-            });
-        });
-
-        // Click outside to close all dropdowns
-        document.addEventListener('click', () => {
-            toggleButtons.forEach(button => {
-                const targetId = button.getAttribute('data-collapse-toggle');
-                const targetElement = document.getElementById(targetId);
-
-                if (targetElement && !targetElement.classList.contains('hidden')) {
-                    button.setAttribute('aria-expanded', 'false');
-                    targetElement.classList.add('hidden');
-                }
-            });
-        });
+    sidebarMenus.forEach(sidebarMenu => {
+        sidebarMenu.addEventListener('click', toggleSidebarSubmenu);
     });
-    
+
+    document.addEventListener('click', (event) => {
+        if (sidebar && sidebarSubmenuBox && 
+            !sidebar.contains(event.target) && 
+            !sidebarSubmenuBox.contains(event.target)) {
+            hideSidebarSubmenuBox();
+        }
+    });
+});
 </script>

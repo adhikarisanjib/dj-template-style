@@ -1,25 +1,38 @@
-<nav class="px-4 py-2 flex justify-between items-baseline gap-4 bg-white dark:bg-gray-800 shadow-sm border-b">
+<nav class="px-6 py-2 flex text-gray-900 bg-gray-50 dark:text-gray-100 dark:bg-gray-700">
 
-    <div class="px-5 py-1">
-        <a href="" class="text-xl font-bold">Logo</a>
+    <!-- Desktop -->
+    <div class="hidden lg:flex flex-grow justify-between items-center">
+        <div class="flex">
+            <a href="#">Home</a>
+        </div>
+        <div class="flex space-x-2">
+            <button id="id-desktop-theme-toggler" class="p-2 flex items-center hover:bg-gray-200 hover:dark:bg-gray-800"></button>
+            <button class="px-3 py-2 hover:bg-gray-200 hover:dark:bg-gray-800">Logout</button>
+            <button class="px-3 py-2 hover:bg-gray-200 hover:dark:bg-gray-800">Profile</button>
+        </div>
     </div>
 
-    <div class="px-2 flex items-baseline gap-2">
-        <span id="id-theme-toggler" class="h-8 w-8 flex justify-center items-center rounded-full border cursor-pointer">
-            <i class="bx bx-moon text-lg"></i>
-        </span>
-        <span class="h-8 w-8 flex justify-center items-center rounded-full border cursor-pointer">
-            <i class="bx bx-user text-lg"></i>
-        </span>
+    <!-- Mobile -->
+    <div class="flex flex-col flex-grow lg:hidden">
+        <div class="ml-auto flex space-x-2">
+            <button id="id-mobile-theme-toggler" class="p-2 hover:bg-gray-200 hover:dark:bg-gray-800"></button>
+            <button id="id-navbar-toggler" class="p-2 hover:bg-gray-200 hover:dark:bg-gray-800"><i class="bx bx-menu text-2xl"></i></button>
+        </div>
+        <div id="id-navbar-items" class="mt-3 py-2 border-t flex-col justify-center hidden">
+            <button class="px-3 py-2 hover:bg-gray-200 hover:dark:bg-gray-800">Logout</button>
+            <button class="px-3 py-2 hover:bg-gray-200 hover:dark:bg-gray-800">Profile</button>
+        </div>
     </div>
-
 </nav>
 
 <script>
-
-    // Check if theme is set
+    // Retrieve theme from localStorage or fallback to system default
     let theme = localStorage.getItem("theme");
-    if (!theme) {
+    let navbarToggler = document.getElementById("id-navbar-toggler");
+    let desktopThemeToggler = document.getElementById("id-desktop-theme-toggler");
+    let mobileThemeToggler = document.getElementById("id-mobile-theme-toggler");
+
+    if (theme == null) {
         // Check system preference
         const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
         theme = prefersDark ? "dark" : "light";
@@ -27,35 +40,47 @@
     }
 
     // Apply the theme
-    if (theme === "dark") {
-        document.documentElement.classList.add("dark");
-    } else {
-        document.documentElement.classList.remove("dark");
-    }
+    document.addEventListener("DOMContentLoaded", function () {
+        if (theme === "dark") {
+            document.documentElement.classList.add("dark");
+            desktopThemeToggler.innerHTML = "<i class='bx bx-sun text-xl'></i>";
+            mobileThemeToggler.innerHTML = "<i class='bx bx-sun text-xl'></i>";
+        } else {
+            document.documentElement.classList.remove("dark");
+            desktopThemeToggler.innerHTML = "<i class='bx bx-moon text-lg'></i>";
+            mobileThemeToggler.innerHTML = "<i class='bx bx-moon text-lg'></i>";
+        }
+    });
 
     // Function to toggle theme
-    function toggleTheme() {
+    function toggleTheme(themeToggler) {
         let currentTheme = localStorage.getItem("theme");
         if (currentTheme === "dark") {
             document.documentElement.classList.remove("dark");
             localStorage.setItem("theme", "light");
-            console.log("light");
+            themeToggler.innerHTML = "<i class='bx bx-moon text-lg'></i>";
         } else {
             document.documentElement.classList.add("dark");
             localStorage.setItem("theme", "dark");
-            console.log("dark");
+            themeToggler.innerHTML = "<i class='bx bx-sun text-xl'></i>";
         }
     }
 
     // Add event listeners to toggle buttons
-    document.getElementById("id-theme-toggler").addEventListener("click", function (e) {
+    desktopThemeToggler.addEventListener("click", function (e) {
         e.preventDefault();
-        toggleTheme();
+        toggleTheme(desktopThemeToggler);
     });
 
-    // document.getElementById("id-theme-toggler-mob").addEventListener("click", function (e) {
-    //     e.preventDefault();
-    //     toggleTheme();
-    // });
-    
+    mobileThemeToggler.addEventListener("click", function (e) {
+        e.preventDefault();
+        toggleTheme(mobileThemeToggler);
+    });
+
+    navbarToggler.addEventListener("click", function (e) {
+        e.preventDefault();
+        let navbarItems = document.getElementById("id-navbar-items");
+        navbarItems.classList.toggle("hidden");
+        navbarItems.classList.toggle("flex");
+    });
 </script>
