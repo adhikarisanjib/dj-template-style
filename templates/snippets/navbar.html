@@ -6,21 +6,34 @@
             <a href="#">Home</a>
         </div>
         <div class="flex space-x-2">
-            <button id="id-desktop-theme-toggler" class="p-2 flex items-center hover:bg-gray-200 hover:dark:bg-gray-800"></button>
-            <button class="px-3 py-2 hover:bg-gray-200 hover:dark:bg-gray-800">Logout</button>
-            <button class="px-3 py-2 hover:bg-gray-200 hover:dark:bg-gray-800">Profile</button>
+            <button id="id-desktop-theme-toggler" class="p-2 flex items-center rounded hover:bg-gray-200 hover:dark:bg-gray-800"></button>
+            <button class="px-3 py-2 rounded hover:bg-gray-200 hover:dark:bg-gray-800">Logout</button>
+            <div class="relative">
+                <button target="id-navbar-profile-submenu" class="navbar-menu px-3 py-2 rounded hover:bg-gray-200 hover:dark:bg-gray-800">Profile</button>
+                <div class="absolute right-0 z-50 px-4 py-2 flex-col text-gray-900 bg-gray-50 dark:text-gray-100 dark:bg-gray-700 border rounded shadow-md hidden" id="id-navbar-profile-submenu">
+                    <a class="block px-3 py-2 rounded hover:bg-gray-200 hover:dark:bg-gray-800">Settings</a>
+                    <a class="block px-3 py-2 rounded hover:bg-gray-200 hover:dark:bg-gray-800">Logout</a>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Mobile -->
     <div class="flex flex-col flex-grow lg:hidden">
         <div class="ml-auto flex space-x-2">
-            <button id="id-mobile-theme-toggler" class="p-2 hover:bg-gray-200 hover:dark:bg-gray-800"></button>
-            <button id="id-navbar-toggler" class="p-2 hover:bg-gray-200 hover:dark:bg-gray-800"><i class="bx bx-menu text-2xl"></i></button>
+            <button id="id-mobile-theme-toggler" class="p-2 rounded hover:bg-gray-200 hover:dark:bg-gray-800"></button>
+            <button id="id-navbar-toggler" class="p-2 rounded hover:bg-gray-200 hover:dark:bg-gray-800"><i class="bx bx-menu text-2xl"></i></button>
         </div>
         <div id="id-navbar-items" class="mt-3 py-2 border-t flex-col justify-center hidden">
-            <button class="px-3 py-2 hover:bg-gray-200 hover:dark:bg-gray-800">Logout</button>
-            <button class="px-3 py-2 hover:bg-gray-200 hover:dark:bg-gray-800">Profile</button>
+            <a class="px-3 py-2 rounded text-center hover:bg-gray-200 hover:dark:bg-gray-800">Home</a>
+            <button class="px-3 rounded  py-2 hover:bg-gray-200 hover:dark:bg-gray-800">Logout</button>
+            <div target="id-navbar-mobile-profile-submenu" class="navbar-menu relative flex justify-center px-3 py-2 rounded cursor-pointer hover:bg-gray-200 hover:dark:bg-gray-800">
+                <button class="">Profile</button>
+                <div class="absolute top-8 px-4 py-2 flex-col text-gray-900 bg-gray-50 dark:text-gray-100 dark:bg-gray-700 border rounded shadow-md hidden" id="id-navbar-mobile-profile-submenu">
+                    <a class="block px-3 py-2 rounded hover:bg-gray-200 hover:dark:bg-gray-800">Settings</a>
+                    <a class="block px-3 py-2 rounded hover:bg-gray-200 hover:dark:bg-gray-800">Logout</a>
+                </div>
+            </div>
         </div>
     </div>
 </nav>
@@ -82,5 +95,27 @@
         let navbarItems = document.getElementById("id-navbar-items");
         navbarItems.classList.toggle("hidden");
         navbarItems.classList.toggle("flex");
+    });
+
+    // Toggle submenu
+    let navbarMenus = document.querySelectorAll(".navbar-menu");
+    navbarMenus.forEach(function (menu) {
+        menu.addEventListener("click", function (e) {
+            e.preventDefault();
+            let submenu = document.getElementById(menu.getAttribute("target"));
+            submenu.classList.toggle("hidden");
+            submenu.classList.toggle("flex");
+        });
+    });
+
+    // Close submenu when clicked outside
+    document.addEventListener("click", function (e) {
+        navbarMenus.forEach(function (menu) {
+            let submenu = document.getElementById(menu.getAttribute("target"));
+            if (!menu.contains(e.target) && !submenu.contains(e.target)) {
+                submenu.classList.add("hidden");
+                submenu.classList.remove("flex");
+            }
+        });
     });
 </script>

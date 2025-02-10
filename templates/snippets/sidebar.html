@@ -126,6 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function toggleSidebarSubmenu(event) {
         event.preventDefault();
         const sidebarMenuItem = event.currentTarget;
+        const sidebarDropdown = sidebarMenuItem.querySelector('.bx-chevron-right');
         const sidebarSubmenuId = sidebarMenuItem.getAttribute('target');
         const sidebarSubmenuElement = document.getElementById(sidebarSubmenuId);
 
@@ -135,7 +136,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // Handle expanded sidebar case
             const isHidden = sidebarSubmenuElement.classList.contains('hidden');
             hideAllSidebarSubmenus();
-            if (isHidden) sidebarSubmenuElement.classList.remove('hidden');
+            if (isHidden) {
+                sidebarSubmenuElement.classList.remove('hidden');
+                sidebarDropdown.classList.add('rotate-90'); // Rotate when expanded
+            } else {
+                sidebarDropdown.classList.remove('rotate-90'); // Reset when collapsed
+            }
+
         } else {
             // Handle collapsed sidebar case - always show in submenu box
             if (sidebarActiveMenu === sidebarSubmenuId) {
