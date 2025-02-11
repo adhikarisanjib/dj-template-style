@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Calendar{% endblock title %}
+
+{% block content %}
+    <div class="w-full h-full px-4 py-4 flex flex-col bg-white dark:bg-gray-900 dark:text-white overflow-auto">
+
+
+        <div id="id-calendar-div" class="min-w-[540px] max-w-[540px] px-8 py-4 flex flex-nowrap flex-col bg-gray-100 dark:bg-gray-800 rounded shadow border overflow-auto">
+            
+            <div id="id-calendar-control" class="flex justify-between items-center">
+                <button id="id-calendar-prev-month" class="p-2 hover:bg-gray-200 hover:dark:bg-gray-700 rounded"><i class="bx bx-chevron-left text-xl"></i></button>
+                <form action="">
+                    <select id="id-calendar-month" class="px-3 py-2 bg-gray-50 dark:bg-gray-800 shadow-sm border rounded"></select>
+                    <select id="id-calendar-year" class="px-3 py-2 bg-gray-50 dark:bg-gray-800 shadow-sm border rounded"></select>
+                </form>
+                <button id="id-calendar-next-month" class="p-2 hover:bg-gray-200 hover:dark:bg-gray-700 rounded"><i class="bx bx-chevron-right text-xl"></i></button>
+            </div>
+        
+            <div id="id-calendar-grid" class="mt-4 grid grid-cols-7 gap-2"></div>
+            
+        </div>
+
+    </div>
+
+    <script>
+
+        // Calendar class
+        class Calendar {
+            // Constructor
+            constructor () {
+                // Current date
+                this.currentDate = new Date();
+                this.selectedMonth = this.currentDate.getMonth();
+                this.selectedYear = this.currentDate.getFullYear();
+
+                // DOM elements
+                this.monthSelector = document.getElementById('id-calendar-month');
+                this.yearSelector = document.getElementById('id-calendar-year');
+                this.calendarGrid = document.getElementById('id-calendar-grid');
+                this.prevMonthButton = document.getElementById('id-calendar-prev-month');
+                this.nextMonthButton = document.getElementById('id-calendar-next-month');
+
+                // Initialize
+                this.initializeControls();
+                this.setupEventListeners();
+                this.renderCalendar();
+            }
+
+            initializeControls () {
+                const months = [
+                    'January', 'February', 'March', 'April',
+                    'May', 'June', 'July', 'August',
+                    'September', 'October', 'November', 'December'
+                ];
+
+                // Populate month selectors
+                months.forEach((month, index) => {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    option.textContent = month;
+                    this.monthSelector.appendChild(option);
+                });
+                this.monthSelector.value = this.selectedMonth;
+
+                // Populate year selectors
+                for (let year = this.selectedYear - 50; year <= this.selectedYear + 20; year++) {
+                    const option = document.createElement('option');
+                    option.value = year;
+                    option.textContent = year;
+                    this.yearSelector.appendChild(option);
+                }
+                this.yearSelector.value = this.selectedYear;
+            }
+
+            // Setup event listeners
+            setupEventListeners () {
+                // Previous month button
+                this.prevMonthButton.addEventListener('click', () => {
+                    if (this.selectedMonth === 0) {
+                        this.selectedMonth = 11;
+                        this.selectedYear = this.selectedYear - 1;
+                    } else {
+                        this.selectedMonth = this.selectedMonth - 1;
+                    }
+                    this.updateSelects();
+                    this.renderCalendar();
+                });
+
+                // Next month button
+                this.nextMonthButton.addEventListener('click', () => {
+                    if (this.selectedMonth === 11) {
+                        this.selectedMonth = 0;
+                        this.selectedYear = this.selectedYear + 1;
+                    } else {
+                        this.selectedMonth = this.selectedMonth + 1;
+                    }
+                    this.updateSelects();
+                    this.renderCalendar();
+                });
+
+                // Month selector change
+                this.monthSelector.addEventListener('change', () => {
+                    this.selectedMonth = parseInt(this.monthSelector.value);
+                    this.renderCalendar();
+                });
+
+                // Year selector change
+                this.yearSelector.addEventListener('change', () => {
+                    this.selectedYear = parseInt(this.yearSelector.value);
+                    this.renderCalendar();
+                });
+            }
+
+            // Update selects
+            updateSelects () {
+                this.monthSelector.value = this.selectedMonth;
+                this.yearSelector.value = this.selectedYear;
+            }
+
+            renderCalendar () {
+                this.calendarGrid.innerHTML = '';
+
+                // Add days of the week
+                const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                daysOfWeek.forEach(day => {
+                    const cell = document.createElement('div');
+                    cell.classList.add('text-center', 'font-semibold', 'text-gray-500', 'dark:text-gray-400');
+                    cell.textContent = day;
+                    this.calendarGrid.appendChild(cell);
+                });
+
+                // Get first day and number of days in the month
+                const firstDay = new Date(this.selectedYear, this.selectedMonth, 1).getDay();
+                const daysInMonth = new Date(this.selectedYear, this.selectedMonth + 1, 0).getDate();
+
+                // Add empty cells for the first week
+                for (let i = 0; i < firstDay; i++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('text-center', 'text-gray-300', 'dark:text-gray-600');
+                    cell.textContent = '';
+                    this.calendarGrid.appendChild(cell);
+                }
+
+                // Add days of the month
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const cell = document.createElement('div');
+                    const isToday = day === this.currentDate.getDate() && this.selectedMonth === this.currentDate.getMonth() && this.selectedYear === this.currentDate.getFullYear();
+                    if (isToday) {
+                        cell.classList.add('px-6', 'py-4', 'text-center', 'text-gray-700', 'dark:text-gray-300', 'cursor-pointer', 'bg-blue-600', 'hover:bg-blue-800', 'rounded', 'text-white', 'text-center');
+                    } else {
+                        cell.classList.add('px-6', 'py-4', 'text-center', 'text-gray-700', 'dark:text-gray-300', 'cursor-pointer', 'hover:bg-gray-200', 'hover:dark:bg-gray-700', 'rounded', 'text-center');
+                    }
+                    cell.textContent = day;
+                    cell.addEventListener('click', () => {
+                        console.log(`Selected date: ${day}/${this.selectedMonth + 1}/${this.selectedYear}`);
+                    });
+                    this.calendarGrid.appendChild(cell);
+                }
+
+                // There is no need to add empty cells for the last week as the grid is already 7 columns wide
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            new Calendar();
+        });
+
+    </script>
+{% endblock content %}

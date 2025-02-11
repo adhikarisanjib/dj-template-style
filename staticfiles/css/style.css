@@ -43,6 +43,10 @@
       @apply list-inside;
     }
 
+    select {
+      @apply appearance-none;
+    }
+
     input:-webkit-autofill,
     input:-webkit-autofill:hover,
     input:-webkit-autofill:focus {

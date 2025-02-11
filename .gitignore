@@ -1,6 +1,8 @@
 __pycache__/
 .venv/
 venv/
+static/
+media/
 
 node_modules/
 

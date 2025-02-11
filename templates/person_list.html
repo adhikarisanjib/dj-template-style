@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Person{% endblock title %}
+
+{% block content %}
+    <div class="w-full h-full px-4 py-4 flex flex-col bg-white dark:bg-gray-900 dark:text-white overflow-auto">
+
+        <div class="py-2 flex justify-between items-center gap-2 flex-wrap">
+            <form class="flex gap-2">
+                <input type="search" name="search" class="px-4 py-2 border bg-gray-50 dark:bg-gray-700 rounded" placeholder="Search">
+                <select name="filter-field" id="" class="px-4 py-2 border bg-gray-50 dark:bg-gray-700 rounded">
+                    <option value="">All</option>
+                    <option value="name">Name</option>
+                    <option value="birth_date">DOB</option>
+                    <option value="address__street">Address</option>
+                    <option value="contact__value">Contact</option>
+                </select>
+                <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-800 text-white rounded text-nowrap">Search</button>
+            </form>
+            <div class="flex">
+                <a href="{% url 'person_create' %}?new=1" class="px-4 py-2 bg-blue-600 hover:bg-blue-800 text-white rounded text-nowrap">Add Person</a>
+            </div>
+        </div>
+
+        <table class="mt-2 w-full text-left">
+
+            <thead class="bg-gray-200 dark:bg-gray-700">
+                <tr class="px-2">
+                    <th scope="col" class="px-4 py-2 text-nowrap uppercase">Name</th>
+                    <th scope="col" class="px-4 py-2 text-nowrap uppercase">Birth Date</th>
+                    <th scope="col" class="px-4 py-2 text-nowrap uppercase">Address</th>
+                    <th scope="col" class="px-4 py-2 text-nowrap uppercase">Contact</th>
+                    <!-- <th scope="col" class="px-4 py-2 text-nowrap uppercase">Actions</th> -->
+                </tr>
+            </thead>
+
+            <tbody class="">
+            {% if persons %}
+                {% for person in persons %}
+                    <tr class="py-2 border-b bg-gray-100 dark:bg-gray-800">
+                        <td class="px-4 py-2 text-nowrap">{{ person.name }}</td>
+                        <td class="px-4 py-2 text-nowrap">{{ person.birth_date }}</td>
+                        <td class="px-4 py-2 text-nowrap">{{ person.address_set.first.street }}</td>
+                        <td class="px-4 py-2 text-nowrap">{{ person.contact_set.first.value }}</td>
+                        <!-- <td class="px-4 py-2 text-nowrap">
+                            <a href="#" class="text-blue-500 hover:text-blue-700">Edit</a>
+                        </td> -->
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr class="py-2 border-b bg-gray-100 dark:bg-gray-800">
+                    <td colspan="5" class="px-4 py-2 text-center">No records found</td>
+                </tr>
+            {% endif %}
+            </tbody>
+
+        </table>
+
+    </div>
+{% endblock content %}

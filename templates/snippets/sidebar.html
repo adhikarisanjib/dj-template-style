@@ -1,6 +1,6 @@
 {% load static %}
 
-<aside id="id-sidebar" class="px-4 py-4 h-full flex flex-col bg-gray-100 dark:bg-gray-800">
+<aside id="id-sidebar" class="px-4 py-4 h-full flex flex-col bg-gray-100 dark:bg-gray-800 border-r">
 
     <div class="flex items-center px-1 py-2 gap-x-6 text-gray-900 rounded dark:text-white cursor-pointer">
         <i id="id-sidebar-toggler" class='bx bx-menu text-2xl'></i>
@@ -9,9 +9,15 @@
 
     <ul class="mt-2 py-2 border-t">
         <li>
-            <a href="#" class="flex items-center p-2 gap-x-6 text-gray-900 rounded dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group">
+            <a href="{% url 'home' %}" class="flex items-center p-2 gap-x-6 text-gray-900 rounded dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group">
                 <i class='bx bx-home'></i>
                 <span>Home</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'calendar' %}" class="flex items-center p-2 gap-x-6 text-gray-900 rounded dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group">
+                <i class='bx bx-calendar'></i>
+                <span>Calendar</span>
             </a>
         </li>
         <li>
@@ -21,9 +27,9 @@
                 <i class='bx bx-chevron-right text-lg ml-auto'></i>
             </a>
             <ul id="id-sidebar-database-submenu-list" class="ml-4 hidden">
-                <a href="#" class="flex items-center p-2 gap-x-6 text-gray-900 rounded dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group">
+                <a href="{% url 'person_list' %}" class="flex items-center p-2 gap-x-6 text-gray-900 rounded dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group">
                     <i class='bx bx-user'></i>
-                    <span>Students</span>
+                    <span>Person</span>
                 </a>
                 <a href="#" class="flex items-center p-2 gap-x-6 text-gray-900 rounded dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group">
                     <i class='bx bx-book'></i>
@@ -116,6 +122,8 @@ document.addEventListener('DOMContentLoaded', () => {
             sidebar.classList.add('w-16');
             hideAllSidebarSubmenus();
             hideSidebarSubmenuBox();
+            const sidebarDropdowns = document.querySelectorAll('.bx-chevron-right');
+            sidebarDropdowns.forEach(dropdown => dropdown.classList.remove('rotate-90'));
         } else {
             sidebar.classList.remove('w-16');
             sidebar.classList.add('w-64');
