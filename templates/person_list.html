@@ -32,7 +32,7 @@
                     <th scope="col" class="px-4 py-2 text-nowrap uppercase">Birth Date</th>
                     <th scope="col" class="px-4 py-2 text-nowrap uppercase">Address</th>
                     <th scope="col" class="px-4 py-2 text-nowrap uppercase">Contact</th>
-                    <!-- <th scope="col" class="px-4 py-2 text-nowrap uppercase">Actions</th> -->
+                    <th scope="col" class="px-4 py-2 text-nowrap uppercase">Actions</th>
                 </tr>
             </thead>
 
@@ -44,9 +44,9 @@
                         <td class="px-4 py-2 text-nowrap">{{ person.birth_date }}</td>
                         <td class="px-4 py-2 text-nowrap">{{ person.address_set.first.street }}</td>
                         <td class="px-4 py-2 text-nowrap">{{ person.contact_set.first.value }}</td>
-                        <!-- <td class="px-4 py-2 text-nowrap">
-                            <a href="#" class="text-blue-500 hover:text-blue-700">Edit</a>
-                        </td> -->
+                        <td class="px-4 py-2 text-nowrap">
+                            <a href="{% url 'profile' person_id=person.id %}" class="text-blue-500 hover:text-blue-700">Profile</a>
+                        </td>
                     </tr>
                 {% endfor %}
             {% else %}

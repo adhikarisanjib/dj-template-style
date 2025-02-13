@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Canvas{% endblock title %}
+
+{% block content %}
+    <div class="w-full h-full px-4 py-4 flex flex-col bg-white dark:bg-gray-900 dark:text-white overflow-auto">
+        <div class="h-full flex flex-col text-black dark:text-white">
+            <div class="py-2 flex items-center gap-2">
+                <i id="triangle" class="bx bx-up-arrow text-2xl cursor-pointer canvas-tool-btn"></i>
+                <i id="rectangle" class="bx bx-rectangle text-2xl cursor-pointer canvas-tool-btn"></i>
+                <i id="circle" class="bx bx-circle text-2xl cursor-pointer canvas-tool-btn"></i>
+
+                <input id="id-input-brush-size" type="range" min="1" max="50" value="5" class="w-20" />
+                <input id="id-input-fill-check" type="checkbox" class="cursor-pointer" /> <span class="text-nowrap">Fill shape</span>
+            </div>
+
+            <div class="py-2 flex items-center gap-2">
+                <input id="id-input-color-picker" type="color" class="w-10 h-10 p-0" />
+                <i id="brush" class="bx bx-pencil text-2xl cursor-pointer canvas-tool-btn text-blue-600"></i>
+                <i id="eraser" class="bx bx-eraser text-2xl cursor-pointer canvas-tool-btn"></i>
+                <button id="id-clear-canvas-btn" class="cursor-pointer">Clear</button>
+                <button id="id-save-canvas-btn" class="cursor-pointer">Save</button>
+            </div>
+
+            <canvas class="w-full h-full bg-gray-100 dark:bg-gray-800"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.querySelector('canvas');
+
+        const setCanvasSize = () => {
+            console.log('Setting canvas size');
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        };
+
+        const ctx = canvas.getContext('2d');
+
+        const canvasToolBtns = document.querySelectorAll('.canvas-tool-btn');
+        canvasToolBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Reset color of all buttons
+                canvasToolBtns.forEach(btn => {
+                   btn.classList.remove('text-blue-600');
+                });
+
+                // Set color to the selected button
+                selectedTool = btn.id;
+                btn.classList.add('text-blue-600');
+                console.log(selectedTool);
+            });
+        });
+
+        let isDrawing = false;
+        let brushSize = 5;
+        let selectedTool = 'brush';
+        let prevMouseX, prevMouseY, snapshot;
+
+        const clearCanvasBtn = document.getElementById('id-clear-canvas-btn');
+        clearCanvasBtn.addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+        const colorPicker = document.getElementById('id-input-color-picker');
+        colorPicker.addEventListener('change', () => {
+            ctx.strokeStyle = colorPicker.value;
+            ctx.fillStyle = colorPicker.value;
+        });
+
+        const fillCheck = document.getElementById('id-input-fill-check');
+        const brushSizeInput = document.getElementById('id-input-brush-size');
+        brushSizeInput.addEventListener('input', (e) => {
+            brushSize = e.target.value;
+        });
+
+        const drawTriangle = (e) => {
+            // Restore the previous state of the canvas
+            ctx.putImageData(snapshot, 0, 0);
+            ctx.beginPath();
+            ctx.moveTo(prevMouseX, prevMouseY);
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.lineTo(prevMouseX - (e.offsetX - prevMouseX), e.offsetY);
+            ctx.closePath();
+            fillCheck.checked ? ctx.fill() : ctx.stroke();
+        }
+
+        const drawRectangle = (e) => {
+            // Restore the previous state of the canvas
+            ctx.putImageData(snapshot, 0, 0);
+            fillCheck.checked 
+                ? ctx.fillRect(e.offsetX, e.offsetY, prevMouseX - e.offsetX, prevMouseY - e.offsetY) 
+                : ctx.strokeRect(e.offsetX, e.offsetY, prevMouseX - e.offsetX, prevMouseY - e.offsetY);
+        };
+
+        const drawCircle = (e) => {
+            // Restore the previous state of the canvas
+            ctx.putImageData(snapshot, 0, 0);
+            ctx.beginPath();
+            ctx.arc(e.offsetX, e.offsetY, Math.sqrt(Math.pow(prevMouseX - e.offsetX, 2) + Math.pow(prevMouseY - e.offsetY, 2)), 0, 2 * Math.PI);
+            fillCheck.checked ? ctx.fill() : ctx.stroke();
+        };
+
+        const startDrawing = (e) => {
+            isDrawing = true;
+            prevMouseX = e.offsetX;
+            prevMouseY = e.offsetY;
+            ctx.beginPath();
+            ctx.lineWidth = brushSize;
+
+            // Save the current state of the canvas
+            snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        };
+
+        const drawing = (e) => {
+            if (!isDrawing) return;
+
+            if (selectedTool == 'brush') {
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.stroke();
+            } else if (selectedTool == "triangle") {
+                drawTriangle(e);
+            } else if (selectedTool == "rectangle") {
+                drawRectangle(e);
+            } else if (selectedTool == "circle") {
+                drawCircle(e);
+            } else if (selectedTool == "eraser") {
+                ctx.clearRect(e.offsetX, e.offsetY, brushSize, brushSize);
+            }
+        }
+
+        window.addEventListener('load', setCanvasSize);
+        window.addEventListener('resize', () => {
+            snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            setCanvasSize();
+            ctx.putImageData(snapshot, 0, 0);
+        });
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', drawing);
+        canvas.addEventListener('mouseup', () => isDrawing = false);
+
+        const saveCanvasBtn = document.getElementById('id-save-canvas-btn');
+        saveCanvasBtn.addEventListener('click', () => {
+            const dataUrl = canvas.toDataURL();
+            const a = document.createElement('a');
+            a.href = dataUrl;
+            const fileName = prompt("Enter file name", "canvas");
+            if (fileName) {
+            a.download = `${fileName}.png`;
+            a.click();
+            }
+        });
+    </script>
+{% endblock content %}

@@ -1,6 +1,6 @@
 {% load static %}
 
-<aside id="id-sidebar" class="px-4 py-4 h-full flex flex-col bg-gray-100 dark:bg-gray-800 border-r">
+<aside id="id-sidebar" class="px-4 py-4 h-full flex flex-col flex-shrink-0 bg-gray-100 dark:bg-gray-800 border-r">
 
     <div class="flex items-center px-1 py-2 gap-x-6 text-gray-900 rounded dark:text-white cursor-pointer">
         <i id="id-sidebar-toggler" class='bx bx-menu text-2xl'></i>
@@ -39,18 +39,18 @@
         </li>
         <li>
             <a href="#" target="id-sidebar-accountant-submenu-list" class="sidebar-menu flex items-center p-2 gap-x-6 text-gray-900 rounded dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group">
-                <i class='bx bx-wallet'></i>
-                <span>Accountant</span>
+                <i class='bx bx-palette'></i>
+                <span>Draw</span>
                 <i class='bx bx-chevron-right text-lg ml-auto'></i>
             </a>
             <ul id="id-sidebar-accountant-submenu-list" class="ml-4 hidden">
-                <a href="#" class="flex items-center p-2 gap-x-6 text-gray-900 rounded dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group">
-                    <i class='bx bx-credit-card-alt'></i>
-                    <span>Fees</span>
+                <a href="{% url 'canvas' %}" class="flex items-center p-2 gap-x-6 text-gray-900 rounded dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group">
+                    <i class='bx bx-paint'></i>
+                    <span>Canvas</span>
                 </a>
                 <a href="#" class="flex items-center p-2 gap-x-6 text-gray-900 rounded dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group">
-                    <i class='bx bx-credit-card-alt'></i>
-                    <span>Pay</span>
+                    <i class='bx bx-chalkboard'></i>
+                    <span>White Board</span>
                 </a>
             </ul>
         </li>
@@ -75,7 +75,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    let sidebar_open = localStorage.getItem('sidebar_open') === 'true';
+    let sidebarOpen = localStorage.getItem('sidebarOpen') === 'true';
     const sidebar = document.getElementById('id-sidebar');
     const sidebarMenus = document.querySelectorAll('.sidebar-menu');
     const sidebarToggler = document.getElementById('id-sidebar-toggler');
@@ -84,13 +84,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let sidebarActiveMenu = null;
 
     // Initialize sidebar state based on localStorage
-    if (sidebar_open === null) {
-        sidebar_open = true;
-        localStorage.setItem('sidebar_open', String(sidebar_open));
+    if (sidebarOpen === null) {
+        sidebarOpen = true;
+        localStorage.setItem('sidebarOpen', String(sidebarOpen));
     }
 
     // Apply initial classes based on stored state
-    if (sidebar_open) {
+    if (sidebarOpen) {
         sidebar.classList.add('w-64');
         sidebar.classList.remove('w-16');
     } else {
@@ -114,10 +114,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     sidebarToggler.addEventListener('click', () => {
-        sidebar_open = !sidebar_open;
-        localStorage.setItem('sidebar_open', String(sidebar_open));
+        sidebarOpen = !sidebarOpen;
+        localStorage.setItem('sidebarOpen', String(sidebarOpen));
 
-        if (!sidebar_open) {
+        if (!sidebarOpen) {
             sidebar.classList.remove('w-64');
             sidebar.classList.add('w-16');
             hideAllSidebarSubmenus();
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!sidebarSubmenuElement) return;
         
-        if (sidebar_open) {
+        if (sidebarOpen) {
             // Handle expanded sidebar case
             const isHidden = sidebarSubmenuElement.classList.contains('hidden');
             hideAllSidebarSubmenus();

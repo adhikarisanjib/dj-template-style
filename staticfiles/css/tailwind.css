@@ -790,6 +790,15 @@ input:-webkit-autofill,
   clear: none;
 }
 
+.m-auto {
+  margin: auto;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .ml-4 {
   margin-left: 1rem;
 }
@@ -812,6 +821,14 @@ input:-webkit-autofill,
 
 .mt-auto {
   margin-top: auto;
+}
+
+.ml-16 {
+  margin-left: 4rem;
+}
+
+.ml-64 {
+  margin-left: 16rem;
 }
 
 .box-border {
@@ -913,6 +930,10 @@ input:-webkit-autofill,
   display: none;
 }
 
+.h-10 {
+  height: 2.5rem;
+}
+
 .h-full {
   height: 100%;
 }
@@ -921,8 +942,20 @@ input:-webkit-autofill,
   height: 100vh;
 }
 
+.h-48 {
+  height: 12rem;
+}
+
+.w-10 {
+  width: 2.5rem;
+}
+
 .w-16 {
   width: 4rem;
+}
+
+.w-20 {
+  width: 5rem;
 }
 
 .w-64 {
@@ -949,16 +982,20 @@ input:-webkit-autofill,
   width: 100vw;
 }
 
-.w-\[540px\] {
-  width: 540px;
+.w-\[calc\(100\%-16rem\)\] {
+  width: calc(100% - 16rem);
+}
+
+.w-\[calc\(100\%-4rem\)\] {
+  width: calc(100% - 4rem);
+}
+
+.w-48 {
+  width: 12rem;
 }
 
 .min-w-48 {
   min-width: 12rem;
-}
-
-.min-w-96 {
-  min-width: 24rem;
 }
 
 .min-w-\[540px\] {
@@ -973,8 +1010,16 @@ input:-webkit-autofill,
   max-width: 640px;
 }
 
+.flex-1 {
+  flex: 1 1 0%;
+}
+
 .flex-shrink {
   flex-shrink: 1;
+}
+
+.flex-shrink-0 {
+  flex-shrink: 0;
 }
 
 .shrink {
@@ -1829,6 +1874,10 @@ input:-webkit-autofill,
   border-radius: 0.25rem;
 }
 
+.rounded-full {
+  border-radius: 9999px;
+}
+
 .rounded-b {
   border-bottom-right-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
@@ -2098,6 +2147,10 @@ input:-webkit-autofill,
      object-fit: scale-down;
 }
 
+.p-0 {
+  padding: 0px;
+}
+
 .p-2 {
   padding: 0.5rem;
 }
@@ -2160,6 +2213,14 @@ input:-webkit-autofill,
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+.pl-16 {
+  padding-left: 4rem;
+}
+
+.pl-64 {
+  padding-left: 16rem;
 }
 
 .text-left {
@@ -2318,9 +2379,19 @@ input:-webkit-autofill,
   color: rgb(51 102 153 / .35);
 }
 
+.text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity, 1));
+}
+
 .text-blue-500 {
   --tw-text-opacity: 1;
   color: rgb(59 130 246 / var(--tw-text-opacity, 1));
+}
+
+.text-blue-600 {
+  --tw-text-opacity: 1;
+  color: rgb(37 99 235 / var(--tw-text-opacity, 1));
 }
 
 .text-gray-300 {
@@ -2900,8 +2971,4 @@ input:-webkit-autofill,
   .dark\:lg\:hover\:\[paint-order\:markers\]:hover:is(.dark *) {
     paint-order: markers;
   }
-}
-
-.rtl\:ml-2:where([dir="rtl"], [dir="rtl"] *) {
-  margin-left: 0.5rem;
 }

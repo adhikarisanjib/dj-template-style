@@ -5,10 +5,10 @@
 {% block title %}Calendar{% endblock title %}
 
 {% block content %}
-    <div class="w-full h-full px-4 py-4 flex flex-col bg-white dark:bg-gray-900 dark:text-white overflow-auto">
+    <div class="h-full px-4 py-4 flex flex-col bg-white dark:bg-gray-900 dark:text-white overflow-auto">
 
-
-        <div id="id-calendar-div" class="min-w-[540px] max-w-[540px] px-8 py-4 flex flex-nowrap flex-col bg-gray-100 dark:bg-gray-800 rounded shadow border overflow-auto">
+            
+        <div id="id-calendar-div" class="min-w-[540px] max-w-[540px] mx-auto px-8 py-4 flex flex-nowrap flex-col bg-gray-100 dark:bg-gray-800 rounded shadow border">
             
             <div id="id-calendar-control" class="flex justify-between items-center">
                 <button id="id-calendar-prev-month" class="p-2 hover:bg-gray-200 hover:dark:bg-gray-700 rounded"><i class="bx bx-chevron-left text-xl"></i></button>
@@ -18,7 +18,7 @@
                 </form>
                 <button id="id-calendar-next-month" class="p-2 hover:bg-gray-200 hover:dark:bg-gray-700 rounded"><i class="bx bx-chevron-right text-xl"></i></button>
             </div>
-        
+            
             <div id="id-calendar-grid" class="mt-4 grid grid-cols-7 gap-2"></div>
             
         </div>

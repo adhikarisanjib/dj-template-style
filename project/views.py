@@ -8,3 +8,7 @@ def home_view(request):
 
 def calendar_view(request):
     return render(request, 'calendar.html')
+
+
+def canvas_view(request):
+    return render(request, 'canvas.html')

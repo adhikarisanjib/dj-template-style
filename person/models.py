@@ -6,7 +6,7 @@ class Person(models.Model):
     age = models.IntegerField()
     birth_date = models.DateField()
     bio = models.TextField()
-    photo = models.ImageField(upload_to='photos/', null=True, blank=True, default='photos/default.png')
+    photo = models.ImageField(upload_to='photos/', null=True, blank=True, default='photos/default.jpg')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -92,3 +92,8 @@ def person_create_view(request):
         form = FormClass(initial=initial_data)
 
     return render(request, 'person_create.html', {'form': form, 'current_step': current_step})
+
+
+def profile_view(request, person_id):
+    person = Person.objects.prefetch_related('address_set', 'contact_set').get(id=person_id)
+    return render(request, 'profile.html', {'person': person})
